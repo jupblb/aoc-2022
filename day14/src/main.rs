@@ -17,6 +17,9 @@ fn main() {
         })
         .collect::<Vec<Vec<(usize, usize)>>>();
 
+    let min_y = input.iter().flatten().map(|(_, y)| y).min().unwrap();
+    println!("MIN {}", min_y);
+
     let mut cave = [[0; CAVE_BOUNDS.0]; CAVE_BOUNDS.1];
 
     input.iter().for_each(|wall| {
