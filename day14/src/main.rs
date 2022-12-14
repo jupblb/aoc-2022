@@ -1,10 +1,12 @@
 use std::cmp;
 use std::io;
 
-const MIN_HORIZONTAL: usize = 450;
-const SAND: (usize, usize) = (0, 50);
+const MIN_HORIZONTAL: usize = 50;
+const SAND: (usize, usize) = (0, 450);
 
-const CAVE_BOUNDS: (usize, usize) = (100, 200);
+// const CAVE_BOUNDS: (usize, usize) = (100, 200);
+const CAVE_BOUNDS: (usize, usize) = (900, 169);
+// const CAVE_BOUNDS: (usize, usize) = (100, 11);
 
 fn main() {
     let input = read_input()
@@ -16,9 +18,6 @@ fn main() {
                 .collect()
         })
         .collect::<Vec<Vec<(usize, usize)>>>();
-
-    let min_y = input.iter().flatten().map(|(_, y)| y).min().unwrap();
-    println!("MIN {}", min_y);
 
     let mut cave = [[0; CAVE_BOUNDS.0]; CAVE_BOUNDS.1];
 
@@ -41,7 +40,7 @@ fn main() {
     });
 
     let mut sand_i = 0;
-    'outer: loop {
+    loop {
         let mut c = SAND.clone();
         loop {
             match cave.get(c.0 + 1) {
@@ -58,17 +57,22 @@ fn main() {
                         c = (c.0 + 1, c.1 + 1);
                         continue;
                     }
-                    cave[c.0][c.1] = 2;
                     break;
                 }
-                None => break 'outer,
+                None => break,
             }
         }
+
+        if cave[c.0][c.1] == 2 {
+            break
+        }
+
+        cave[c.0][c.1] = 2;
         sand_i += 1;
     }
 
     print_cave(&cave);
-    println!("{}", sand_i);
+    // println!("{}", sand_i);
 }
 
 fn read_input() -> Vec<Vec<(usize, usize)>> {
